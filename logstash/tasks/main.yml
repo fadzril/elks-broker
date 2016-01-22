@@ -13,8 +13,8 @@
     group: root
     mode: 0644
   with_items:
-    - 01-lumberjack-input.conf
-    - 30-lumberjack-output.conf
+    - 01-input.conf
+    - 99-output.conf
   notify: restart logstash
 
 - name: Create Logstash filters.
@@ -25,11 +25,10 @@
     group: root
     mode: 0644
   with_items:
-    - 10-syslog.conf
-    - 11-nginx.conf
-    - 12-apache.conf
-    - 14-solr.conf
-    - 15-drupal.conf
+    - 20-workday.conf
+    - 21-informatica.conf
+    - 22-tibco.conf
+    - 23-hrdd.conf
   notify: restart logstash
 
 - name: Create Logstash configuration file for local syslog.

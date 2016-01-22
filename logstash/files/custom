@@ -1,0 +1,72 @@
+###
+# Custom Patterns
+###
+
+SPACES (?:\w{1}+|%{SPACE}\.%{SPACE})
+SEPARATOR (\s+\|\s+)
+WORDS (\[\w+...*)
+WORDS_ALT (\w+*)
+DUMP (^\s+at .+)|(^\s+... \d+ more)
+CUSTOM_TRACE_EXCEPTION (^java.+Exception)|(^java.lang.RuntimeException)|(^.+Exception.+)|(^.+Exception: .+)
+
+# Noida
+NOIDA_INFO (?NOIDA\sINFO)
+NOIDA_AUTH (?:LOGIN\sPROFILE)\W+(...)+$
+HRDD_DATE %{MONTHDAY}\/%{MONTH}+\/%{YEAR}+%{TIME} +%{INT}
+#HRDD_LOG %{IP:client} (?:\-\s\-) [\[](?:%{HRDD_DATE:timestamp})[\]] (?:%{WORD:verb}) (?:%{NOTSPACE:request}) (?:HTTP/%{NUMBER:httpversion}) (?:%{NUMBER:status$
+HRDD_LOG %{IPORHOST:clientip} %{USER:ident} %{USER:auth} \[%{HTTPDATE:timestamp}\] (?:%{WORD:verb} %{NOTSPACE:request}(?: HTTP/%{NUMBER:httpversion})) %{NUMBER$
+HRDD_PROFILE %{GREEDYDATA} (LOGIN\sPROFILE\s\-\>+%{DATA})
+
+
+# Karaf SAFTT
+YEARS (?>\d\d){1,4}
+DATES %{YEARS}[/-]%{MONTHNUM}[/-]%{MONTHDAY} %{TIME}
+TS %{YEAR}-%{MONTHNUM}-%{MONTHDAY}[T ]%{HOUR}:?%{MINUTE}(?::?%{SECOND})?%{ISO8601_TIMEZONE}?
+AGENT_NAME %{USERNAME}
+AGENT %{GREEDYDATA}
+KARAF_TRANSFER Transfer from %{DATA:location} to %{DATA:target} %{GREEDYDATA:status}.
+KARAF_FILE_MISSING No \b[files|messages]*\b found \b[in|at]*\b %{GREEDYDATA:location}.*$
+KARAF_MSG %{GREEDYDATA}
+KARAF_LOG (?:%{KARAF_TRANSFER}|%{KARAF_FILE_MISSING}|%{KARAF_MSG})?
+
+###
+# HRDD+ Patterns
+###
+
+HRDD_PART_1 %{TIMESTAMP_ISO8601:ts}%{SEPARATOR}%{INT:app_id}%{SEPARATOR}%{DATA:category}%{SEPARATOR}
+HRDD_PART_2 %{DATA:hostname}%{SEPARATOR}(?:%{DATA:component})%{SEPARATOR}(?:|%{DATA:transaction_id})%{SEPARATOR}
+HRDD_PART_3 %{DATA:transaction_type}%{SEPARATOR}%{DATA:subscription_id}%{SEPARATOR}(?:%{DATA:status}\: |)%{GREEDYDATA:messages} ?
+HRDD_LOG %{HRDD_PART_1}%{HRDD_PART_2}%{HRDD_PART_3}
+
+###
+# TIBCO Patterns
+###
+TIBCO_PART_1 %{TIMESTAMP_ISO8601:ts}%{SEPARATOR}%{INT:app_id}%{SEPARATOR}%{DATA:component}%{SEPARATOR}
+TIBCO_PART_2 %{DATA:hostname}%{SEPARATOR}(?:%{DATA:transaction_type})%{SEPARATOR}(?:|%{DATA:transaction_id})%{SEPARATOR}
+TIBCO_PART_3 %{DATA:subscription_id}%{SEPARATOR}%{DATA:category}%{SEPARATOR}(?:%{DATA:status}\: |)%{GREEDYDATA:messages} ?
+TIBCO_LOG %{TIBCO_PART_1}%{TIBCO_PART_2}%{TIBCO_PART_3}
+
+###
+# SABA Web Services Pattern
+###
+HRDDSS_LOG %{TIMESTAMP_ISO8601:ts}\|%{DATA:app_id}\|%{DATA:category}\|%{DATA:component}\|%{WORDS_ALT:hostname}\|%{WORDS_ALT:status}\|%{WORDS_ALT:transaction_type}\|%{DATA:transaction_id}\|%{GREEDYDATA:messages}
+
+###
+# SAFTT Patterns
+###
+SAFTT_PART_1 %{TIMESTAMP_ISO8601:ts}%{SEPARATOR}%{DATA:category}%{SEPARATOR}%{DATA:hostname}%{SEPARATOR}
+SAFTT_PART_2 %{DATA:transaction_type}%{SEPARATOR}(?:\?|%{DATA})(?:\?|\s+%{INT:transaction_id})%{SEPARATOR}
+SAFTT_PART_3 %{DATA}%{SEPARATOR}(?:\[%{DATA:class}\]\: +|%{DATA:status}\s+)(%{GREEDYDATA:messages})?
+SAFTT_LOG %{SAFTT_PART_1}%{SAFTT_PART_2}%{SAFTT_PART_3}
+
+###
+## INFORMATICA
+###
+#INFORMATICA_LOG %{DATESTAMP:d}\|%{INT:app_id}\|%{DATA:category}\|%{WORD:component}\|%{DATA:host}\|%{GREEDYDATA:messages}\|%{DATA:status}\|%{INT:subscription_id}\|%{DATA:tags}\|%{DATA:transaction_type}\|%{WORD:type}
+INFORMATICA_LOG %{DATESTAMP:ts}\|%{INT:app_id}\|%{DATA:category}\|%{WORD:component}\|%{DATA:hostname}\|%{DATA:status}\|%{INT:subscription_id}\|%{DATA:tags}\|%{DATA:transaction_type}\|%{WORD:types}\|%{GREEDYDATA:messages}
+FPATH ^\/([a-z]\/*)*+%{GREEDYDATA:transaction_id}_%{DATA:subscription_id}.txt
+
+###
+# Informatica Batch (DB/FILES) - 01/20/2016
+##
+BATCH_LOG %{TIMESTAMP_ISO8601:ts}0000\|%{DATA:app_id}\|%{DATA:category}\|%{DATA:component}\|%{DATA:hostname}\|%{WORD:status}\|%{DATA:subscription_id}\|%{DATA:tags}\|(?:%{DATA:transaction_type}*)+\|(?:%{DATA:log_type}*)+\|%{INT:transaction_id}\|(?:%{WORDS:source_filename}*)+\|%{WORDS:target_filename}\|%{GREEDYDATA:messages}

@@ -1,5 +1,8 @@
 output {
-  elasticsearch {
-    host => {{ logstash_elasticsearch_host }}
+  # Print each event to stdout.
+  stdout {
+    # Enabling 'rubydebug' codec on the stdout output will make logstash
+    # pretty-print the entire event as something similar to a JSON representation.
+    codec => rubydebug
   }
 }

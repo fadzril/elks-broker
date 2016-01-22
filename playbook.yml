@@ -1,3 +1,4 @@
 - hosts: localhost
   roles:
-     - { role: tcosta84.rabbitmq }
+     - { role: rabbitmq }
+     - { role: logstash }
