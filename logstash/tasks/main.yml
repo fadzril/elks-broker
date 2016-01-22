@@ -14,6 +14,7 @@
     mode: 0644
   with_items:
     - 01-input.conf
+    - 30-lumberjack-output.conf
     - 99-output.conf
   notify: restart logstash
 
@@ -42,11 +43,12 @@
   notify: restart logstash
 
 - name: Import Logstash pattern file
-  template:
+  copy:
     src: files/custom
-    dest: {{logstash_path}}/patterns
-    owner: root
-    mode: 777
+    dest: "{{ logstash_path }}/patterns"
+    owner: logstash
+    group: logstash
+    mode: 0644
   notify: restart logstash
 
 - name: Warn user if using insecure SSL key pair.
