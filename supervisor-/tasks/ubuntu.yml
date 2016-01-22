@@ -1,0 +1,11 @@
+---
+- include_vars: ubuntu.yml
+
+- name: Update apt cache
+  apt: update_cache=yes cache_valid_time=900
+
+- name: Install service
+  apt: pkg={{ supervisor_package }} state=present
+
+- name: Start and enable service
+  service: name={{ supervisor_service }} state=started enabled=yes

@@ -1,0 +1,8 @@
+---
+- include_vars: centos.yml
+
+- name: Install Supervisor
+  yum: name={{ supervisor_package }} enablerepo=pcextreme-updates state=present
+
+- name: Start and enable service
+  service: name={{ supervisor_service }} state=started enabled=yes
