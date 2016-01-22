@@ -44,7 +44,7 @@
 
 - name: Import Logstash pattern file
   copy:
-    src: files/custom
+    src: custom
     dest: "{{ logstash_path }}/patterns"
     owner: logstash
     group: logstash
