@@ -41,6 +41,14 @@
   when: logstash_monitor_local_syslog
   notify: restart logstash
 
+- name: Import Logstash pattern file
+  template:
+    src: files/custom
+    dest: {{logstash_path}}/patterns
+    owner: root
+    mode: 777
+  notify: restart logstash
+
 - name: Warn user if using insecure SSL key pair.
   debug:
     msg: >

@@ -1,14 +1,14 @@
 ---
 
 - name: Ensure Erlang repo is installed
-  get_url: url=http://repos.fedorapeople.org/repos/peter/erlang/epel-erlang.repo 
+  get_url: url=http://repos.fedorapeople.org/repos/peter/erlang/epel-erlang.repo
            dest=/etc/yum.repos.d/epel-erlang.repo
 
 - name: Ensure Erlang is installed
   yum: name=erlang state=present
 
 - name: Ensure RabbitMQ RPM key is present
-  rpm_key: key=http://www.rabbitmq.com/rabbitmq-signing-key-public.asc 
+  rpm_key: key=http://www.rabbitmq.com/rabbitmq-signing-key-public.asc
            state=present
 
 - name: Ensure RabbitMQ is installed
@@ -17,17 +17,17 @@
     state=present
 
 - name: Ensure rabbitmq management plugin is enabled
-  rabbitmq_plugin: names={{ items }} state=enabled
+  rabbitmq_plugin: names={{ item }} state=enabled
   with_items:
     - rabbitmq_management
-    - rabbitmq_management_visualizer
+    - rabbitmq_management_visualiser
   when: rabbitmq_management_plugin
 
 - name: Ensure RabbitMQ is started and that it always starts on boot
   service: name=rabbitmq-server enabled=yes state=started
 
 - name: Ensure admin user is created
-  rabbitmq_user: user={{ rabbitmq_admin_user }} password={{ rabbitmq_admin_pass }} 
+  rabbitmq_user: user={{ rabbitmq_admin_user }} password={{ rabbitmq_admin_pass }}
                 tags=administrator state=present
   when: rabbitmq_management_plugin and rabbitmq_admin_user is defined and rabbitmq_admin_pass is defined
   notify: restart rabbitmq
