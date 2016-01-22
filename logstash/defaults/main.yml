@@ -1,6 +1,6 @@
 ---
 logstash_listen_port_lumberjack: 5000
-logstash_elasticsearch_host: localhost
+logstash_elasticsearch_host: "c4t17649.itcs.hpecorp.net"
 logstash_elasticsearch_cluster: leo
 logstash_elasticsearch_index: leo
 
