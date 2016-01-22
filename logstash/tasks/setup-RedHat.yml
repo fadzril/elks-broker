@@ -1,4 +1,20 @@
 ---
+- name: Installing Java...
+  yum: name={{ item }} update_cache=yes state=present
+  with_items:
+    - java-1.{{ elk_java.version }}.0-openjdk
+    - java-1.{{ elk_java.version }}.0-openjdk-devel
+    - java-1.{{ elk_java.version }}.0-openjdk-javadoc
+  sudo: true
+
+- name: Installing Java configurations setup
+  template: >
+    src='templates/java.sh.j2'
+    dest='/etc/profile.d/java.sh'
+    mode=644
+    owner=root
+    group=root
+    
 - name: Add Elasticsearch GPG key.
   rpm_key:
     key: http://packages.elasticsearch.org/GPG-KEY-elasticsearch
