@@ -1,0 +1,6 @@
+---
+
+rabbitmq_management_plugin: true
+rabbitmq_remove_guest_user: false
+rabbitmq_admin_user: admin
+rabbitmq_admin_pass: admin
