@@ -1,36 +1,34 @@
 input {
   rabbitmq {
-    host => "0.0.0.0"
-    queue => "HRDD-Q"
-    key => "HRDD-K"
-    exchange => "HRDD-X"
-    threads => 1
-    prefetch_count => 50
+    host => 'localhost'
+    queue => 'HRDD-Q'
+    key => 'HRDD-K'
+    exchange => 'HRDD-X'
+    threads => 2
+    port => 5672
+    user => '{{ rabbitmq_admin_user }}'
+    password => '{{ rabbitmq_admin_pass }}'
+    vhost => '/'
+  }
+  rabbitmq {
+    host => 'localhost'
+    queue => 'RPC-Q'
+    key => 'RPC-K'
+    exchange => 'RPC-X'
+    threads => 2
     port => 5672
     user => '{{ rabbitmq_admin_user }}'
     password => '{{ rabbitmq_admin_pass }}'
   }
   rabbitmq {
-    host => "0.0.0.0"
-    queue => "RPC-Q"
-    key => "RPC-K"
-    exchange => "RPC-X"
-    threads => 1
-    prefetch_count => 50
+    host => 'localhost'
+    queue => 'SFTP-Q'
+    key => 'SFTP-K'
+    exchange => 'SFTP-X'
+    threads => 2
     port => 5672
     user => '{{ rabbitmq_admin_user }}'
     password => '{{ rabbitmq_admin_pass }}'
-  }
-  rabbitmq {
-    host => "localhost"
-    queue => "SFTP-Q"
-    key => "SFTP-K"
-    exchange => "SFTP-X"
-    threads => 4
-    prefetch_count => 50
-    port => 5672
-    user => '{{ rabbitmq_admin_user }}'
-    password => '{{ rabbitmq_admin_pass }}'
-    vhost => "/"
+    vhost => '/'
   }
 }
