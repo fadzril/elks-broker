@@ -34,8 +34,8 @@
 
 - name: Create Logstash configuration file for local syslog.
   template:
-    src: 02-local-syslog-input.conf.j2
-    dest: /etc/logstash/conf.d/02-local-syslog-input.conf
+    src: 02-local-batch-input.conf.j2
+    dest: /etc/logstash/conf.d/02-local-batch-input.conf
     owner: root
     group: root
     mode: 0644

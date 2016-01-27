@@ -1,0 +1,9 @@
+input {
+  file {
+    path => "{{ logstash_local_wd_path }}"
+    type => "WORKDAY"
+    start_position => "beginning"
+    stat_interval => 5
+  }
+  # stdin { type => "stdin-type" }
+}
