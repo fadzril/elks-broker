@@ -3,4 +3,4 @@
   service: name=logstash state=restarted
 
 - name: restart alternatives
-  service: name=alternatives args='--config java'
+  service: name=alternatives state=present args='--config java'

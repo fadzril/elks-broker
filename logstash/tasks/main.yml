@@ -44,11 +44,14 @@
 
 - name: Import Logstash pattern file
   copy:
-    src: custom
-    dest: "{{ logstash_path }}/patterns"
+    src: patterns/{{ item }}
+    dest: "/etc/logstash/patterns"
     owner: logstash
     group: logstash
     mode: 0644
+  with_items:
+    - 01-grok-patterns
+    - 02-grok-custom
   notify: restart logstash
 
 - name: Warn user if using insecure SSL key pair.

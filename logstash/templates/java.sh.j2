@@ -8,4 +8,8 @@ export JAVA_OPTS="$JAVA_OPTS -Dhttps.proxyHost={{https_proxy_hostname}} -Dhttps.
 export JAVA_OPTS="$JAVA_OPTS -DnoProxyHosts={{proxy_env.no_proxy}}"
 {% endif %}
 
-ulimit -l unlimited
+if [ "$EUID" == 0 ]
+  then echo "Running ulimit to unlimited"
+  ulimit -l unlimited
+  exit
+fi

@@ -9,7 +9,7 @@
 
 - name: Installing Java configurations setup
   template: >
-    src='templates/java.sh.j2'
+    src='java.sh.j2'
     dest='/etc/profile.d/java.sh'
     mode=644
     owner=root

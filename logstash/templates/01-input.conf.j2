@@ -7,8 +7,8 @@ input {
     threads => 1
     prefetch_count => 50
     port => 5672
-    user => {{ rabbitmq_admin_user }}
-    password => {{ rabbitmq_admin_pass }}
+    user => '{{ rabbitmq_admin_user }}'
+    password => '{{ rabbitmq_admin_pass }}'
   }
   rabbitmq {
     host => "0.0.0.0"
@@ -18,18 +18,19 @@ input {
     threads => 1
     prefetch_count => 50
     port => 5672
-    user => {{ rabbitmq_admin_user }}
-    password => {{ rabbitmq_admin_pass }}
+    user => '{{ rabbitmq_admin_user }}'
+    password => '{{ rabbitmq_admin_pass }}'
   }
   rabbitmq {
-    host => "0.0.0.0"
+    host => "localhost"
     queue => "SFTP-Q"
     key => "SFTP-K"
     exchange => "SFTP-X"
-    threads => 2
+    threads => 4
     prefetch_count => 50
     port => 5672
-    user => {{ rabbitmq_admin_user }}
-    password => {{ rabbitmq_admin_pass }}
+    user => '{{ rabbitmq_admin_user }}'
+    password => '{{ rabbitmq_admin_pass }}'
+    vhost => "/"
   }
 }
