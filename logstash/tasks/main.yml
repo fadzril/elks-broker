@@ -14,7 +14,7 @@
     mode: 0644
   with_items:
     - 01-input.conf
-    - 30-lumberjack-output.conf
+    - 89-lumberjack-output.conf
     - 99-output.conf
   notify: restart logstash
 
