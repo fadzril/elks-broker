@@ -4,6 +4,7 @@ input {
     type => "BATCH"
     start_position => "beginning"
     stat_interval => 5
+    sincedb_path => '{{ logsash_path }}/.sincedb'
   }
   # stdin { type => "stdin-type" }
 }

@@ -1,7 +1,7 @@
 output {
   # Print each event to default elastic.
   elasticsearch  {
-    host => [ '{{ logstash_elasticsearch_host }}' ]
+    hosts => [ '{{ logstash_elasticsearch_host }}' ]
     index => '{{ logstash_elasticsearch_index }}'
   }
 }
