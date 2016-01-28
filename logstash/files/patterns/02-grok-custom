@@ -11,17 +11,6 @@ WORDS_ALL_DOT ([\w+\.])+
 DUMP (^\s+at .+)|(^\s+... \d+ more)
 CUSTOM_TRACE_EXCEPTION (^java.+Exception)|(^java.lang.RuntimeException)|(^.+Exception.+)|(^.+Exception: .+)
 
-# Karaf SAFTT
-YEARS (?>\d\d){1,4}
-DATES %{YEARS}[/-]%{MONTHNUM}[/-]%{MONTHDAY} %{TIME}
-TS %{YEAR}-%{MONTHNUM}-%{MONTHDAY}[T ]%{HOUR}:?%{MINUTE}(?::?%{SECOND})?%{ISO8601_TIMEZONE}?
-AGENT_NAME %{USERNAME}
-AGENT %{GREEDYDATA}
-KARAF_TRANSFER Transfer from %{DATA:location} to %{DATA:target} %{GREEDYDATA:status}.
-KARAF_FILE_MISSING No \b[files|messages]*\b found \b[in|at]*\b %{GREEDYDATA:location}.*$
-KARAF_MSG %{GREEDYDATA}
-KARAF_LOG (?:%{KARAF_TRANSFER}|%{KARAF_FILE_MISSING}|%{KARAF_MSG})?
-
 ###
 # HRDD+ Patterns
 ###
@@ -50,9 +39,21 @@ HRDDSS_LOG %{HRDDSS_PART_1}%{HRDDSS_PART_2}%{HRDDSS_PART_3}
 ###
 # SAFTT Patterns
 ###
-SAFTT_PART_1 %{TIMESTAMP_ISO8601:received_at}%{SEPARATOR}%{DATA:category}%{SEPARATOR}%{DATA:hostname}%{SEPARATOR}
-SAFTT_PART_2 %{DATA:transaction_type}%{SEPARATOR}(?:\?|%{DATA})(?:\?|\s+%{INT:transaction_id})%{SEPARATOR}
-SAFTT_PART_3 %{DATA}%{SEPARATOR}(?:\[%{DATA:class}\]\: +|%{DATA:status}\s+)(%{GREEDYDATA:messages})?
+# Karaf SAFTT
+YEARS (?>\d\d){1,4}
+DATES %{YEARS}[/-]%{MONTHNUM}[/-]%{MONTHDAY} %{TIME}
+TS %{YEAR}-%{MONTHNUM}-%{MONTHDAY}[T ]%{HOUR}:?%{MINUTE}(?::?%{SECOND})?%{ISO8601_TIMEZONE}?
+AGENT_NAME %{USERNAME}
+AGENT %{GREEDYDATA}
+
+KARAF_TRANSFER (Transfering|Transfer) (file|files) from %{DATA:source_file} to %{GREEDYDATA:target_file}
+KARAF_FILE_MISSING No \b[files|messages]*\b found \b[in|at]*\b %{GREEDYDATA:source_file}.*$
+KARAF_MSG %{GREEDYDATA:messages}
+KARAF_LOG (?:%{KARAF_TRANSFER}|%{KARAF_MSG})
+
+SAFTT_PART_1 %{TIMESTAMP_ISO8601:received_at}%{SEPARATOR}%{LOGLEVEL:category}%{SEPARATOR}%{DATA}%{SEPARATOR}
+SAFTT_PART_2 %{DATA:component}%{SEPARATOR}%{DATA:transaction_type}%{SPACE}%{INT}%{SEPARATOR}
+SAFTT_PART_3 %{INT}%{SPACE}\W+%{DATA:transaction_id}%{SPACE}\W+%{SEPARATOR}%{KARAF_LOG}
 SAFTT_LOG %{SAFTT_PART_1}%{SAFTT_PART_2}%{SAFTT_PART_3}
 
 ###
