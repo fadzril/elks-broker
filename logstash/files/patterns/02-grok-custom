@@ -11,34 +11,34 @@ WORDS_ALL_DOT ([\w+\.])+
 DUMP (^\s+at .+)|(^\s+... \d+ more)
 CUSTOM_TRACE_EXCEPTION (^java.+Exception)|(^java.lang.RuntimeException)|(^.+Exception.+)|(^.+Exception: .+)
 
-###
+#######################################################################################
 # HRDD+ Patterns
-###
+#######################################################################################
 
 HRDD_PART_1 %{TIMESTAMP_ISO8601:received_at}%{SEPARATOR}%{INT:app_id}%{SEPARATOR}%{DATA:category}%{SEPARATOR}
 HRDD_PART_2 %{DATA:hostname}%{SEPARATOR}(?:%{DATA:component})%{SEPARATOR}(?:|%{DATA:transaction_id})%{SEPARATOR}
 HRDD_PART_3 %{DATA:transaction_type}%{SEPARATOR}%{DATA:subscription_id}%{SEPARATOR}(?:%{DATA:status}\: |)%{GREEDYDATA:messages} ?
 HRDD_LOG %{HRDD_PART_1}%{HRDD_PART_2}%{HRDD_PART_3}
 
-###
+#######################################################################################
 # TIBCO Patterns
-###
+#######################################################################################
 TIBCO_PART_1 %{TIMESTAMP_ISO8601:received_at}%{SEPARATOR}%{INT:app_id}%{SEPARATOR}%{DATA:component}%{SEPARATOR}
 TIBCO_PART_2 %{DATA:hostname}%{SEPARATOR}(?:%{DATA:transaction_type})%{SEPARATOR}(?:|%{DATA:transaction_id})%{SEPARATOR}
 TIBCO_PART_3 %{DATA:subscription_id}%{SEPARATOR}%{DATA:category}%{SEPARATOR}(?:%{DATA:status}\: |)%{GREEDYDATA:messages} ?
 TIBCO_LOG %{TIBCO_PART_1}%{TIBCO_PART_2}%{TIBCO_PART_3}
 
-###
+#######################################################################################
 # SABA Web Services Pattern
-###
+#######################################################################################
 HRDDSS_PART_1 %{TIMESTAMP_ISO8601:received_at}%{SEPARATOR}%{INT:app_id}%{SEPARATOR}%{DATA:component}%{SEPARATOR}
 HRDDSS_PART_2 %{DATA:hostname}%{SEPARATOR}(?:%{DATA:transaction_type})%{SEPARATOR}(?:|%{DATA:transaction_id})%{SEPARATOR}
 HRDDSS_PART_3 %{DATA:subscription_id}%{SEPARATOR}%{DATA:category}%{SEPARATOR}(?:%{DATA:status}\: |)%{GREEDYDATA:messages} ?
 HRDDSS_LOG %{HRDDSS_PART_1}%{HRDDSS_PART_2}%{HRDDSS_PART_3}
 
-###
+#######################################################################################
 # SAFTT Patterns
-###
+#######################################################################################
 # Karaf SAFTT
 YEARS (?>\d\d){1,4}
 DATES %{YEARS}[/-]%{MONTHNUM}[/-]%{MONTHDAY} %{TIME}
@@ -56,13 +56,13 @@ SAFTT_PART_2 %{DATA:component}%{SEPARATOR}%{DATA:transaction_type}%{SPACE}%{INT}
 SAFTT_PART_3 %{INT}%{SPACE}\W+%{DATA:transaction_id}%{SPACE}\W+%{SEPARATOR}%{KARAF_LOG}
 SAFTT_LOG %{SAFTT_PART_1}%{SAFTT_PART_2}%{SAFTT_PART_3}
 
-###
+#######################################################################################
 ## INFORMATICA
-###
+#######################################################################################
 FPATH ^\/([a-z]\/*)*+%{GREEDYDATA:transaction_id}_%{DATA:subscription_id}.txt
 INFORMATICA_LOG %{DATESTAMP:received_at}\|%{INT:app_id}\|%{DATA:category}\|%{WORD:component}\|%{DATA:hostname}\|%{DATA:status}\|%{INT:subscription_id}\|%{DATA:tags}\|%{DATA:transaction_type}\|%{WORD:types}\|%{GREEDYDATA:messages}
 
-###
+#######################################################################################
 # Informatica Batch (DB/FILES) - 01/20/2016
 ##
 BL_PART_1 %{TIMESTAMP_ISO8601:received_at}\|%{DATA:app_id}\|%{DATA:category}\|%{DATA:component}\|%{DATA:hostname}\|
