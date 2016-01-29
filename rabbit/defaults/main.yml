@@ -3,4 +3,7 @@ rabbitmq_management_plugin: true
 rabbitmq_remove_guest_user: false
 rabbitmq_admin_user: admin
 rabbitmq_admin_pass: admin
+
+rabbitmq_app_user: admin
+rabbitmq_app_pass: admin
 rabbitmq_app_vhost: /

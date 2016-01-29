@@ -49,5 +49,4 @@
                  write_priv=.*
                  configure_priv=.*
                  state=present
-  when: rabbitmq_management_plugin and rabbitmq_app_user is defined and rabbitmq_app_pass is defined
   notify: restart rabbitmq
