@@ -26,7 +26,7 @@ HRDD_LOG %{HRDD_PART_1}%{HRDD_PART_2}%{HRDD_PART_3}
 #######################################################################################
 RT_PART_1 %{TIMESTAMP_ISO8601:received_at}\|%{DATA:app_id}\|%{LOGLEVEL:category}\|%{DATA:component}\|
 RT_PART_2 %{DATA:hostname}\|%{DATA:status}\|%{SUID:subscription_id}\|%{DATA:tags}\|%{DATA:transaction_type}\|
-RT_PART_3 %{DATA:types}\|%{DATA:event_id}\|%{DATA:source_filename}\|%{DATA:target_filename}\|%{GREEDYDATA:messages}
+RT_PART_3 %{DATA:log_type}\|%{DATA:event_id}\|%{DATA:source_filename}\|%{DATA:target_filename}\|%{GREEDYDATA:messages}
 REALTIME_LOG %{RT_PART_1}%{RT_PART_2}%{RT_PART_3}
 
 TIBCO_PART_1 %{TIMESTAMP_ISO8601:received_at}%{SEPARATOR}%{INT:app_id}%{SEPARATOR}%{DATA:component}%{SEPARATOR}
@@ -52,14 +52,14 @@ TS %{YEAR}-%{MONTHNUM}-%{MONTHDAY}[T ]%{HOUR}:?%{MINUTE}(?::?%{SECOND})?%{ISO860
 AGENT_NAME %{USERNAME}
 AGENT %{GREEDYDATA}
 
-KARAF_TRANSFER (Transfering|Transfer)(?:| file| files) from %{DATA:source_file} to %{WORDS_ALL:target_file} %{GREEDYDATA:status}.
+KARAF_TRANSFER (Transfering|Transfer)(?:| file| files) from %{DATA:source_filename} to %{WORDS_ALL:target_filename} %{GREEDYDATA:status}.
 KARAF_FILE_MISSING No \b[files|messages]*\b found \b[in|at]*\b %{GREEDYDATA:source_file}.*$
 KARAF_MSG %{GREEDYDATA:messages}
 KARAF_LOG (?:%{KARAF_TRANSFER}|%{KARAF_MSG})
 
 SAFTT_PART_1 %{TIMESTAMP_ISO8601:received_at}%{SEPARATOR}%{LOGLEVEL:category}%{SEPARATOR}
 SAFTT_PART_2 %{DATA}%{SEPARATOR}%{DATA:component}%{SEPARATOR}%{DATA:transaction_type}%{SPACE}
-SAFTT_PART_3 %{INT}%{SEPARATOR}%{INT}\W+%{DATA:transaction_id}%{SEPARATOR}%{KARAF_LOG}
+SAFTT_PART_3 %{INT}%{SEPARATOR}%{INT}\W+%{DATA:event_id}%{SEPARATOR}%{KARAF_LOG}
 SAFTT_LOG %{SAFTT_PART_1}%{SAFTT_PART_2}%{SAFTT_PART_3}
 
 #######################################################################################
@@ -72,6 +72,6 @@ INFORMATICA_LOG %{DATESTAMP:received_at}\|%{INT:app_id}\|%{DATA:category}\|%{WOR
 # Informatica Batch (DB/FILES) - 01/20/2016
 ##
 BL_PART_1 %{TIMESTAMP_ISO8601:received_at}\|%{DATA:app_id}\|%{DATA:category}\|%{DATA:component}\|%{DATA:hostname}\|
-BL_PART_2 %{WORD:status}\|%{SUID:subscription_id}\|%{DATA:tags}\|(?:%{DATA:transaction_type})+\|(?:%{DATA:log_type})+\|
+BL_PART_2 %{WORD:status}\|%{SUID:subscription_id}\|%{DATA:tags}\|(?:%{DATA:transaction_type})?\|(?:%{DATA:log_type})?\|
 BL_PART_3 %{INT:transaction_id}\|(?:%{WORDS_ALL_DOT:source_filename})\|(?:%{WORDS_ALL_DOT:target_filename})\|%{GREEDYDATA:messages}
 BATCH_LOG %{BL_PART_1}%{BL_PART_2}%{BL_PART_3}
