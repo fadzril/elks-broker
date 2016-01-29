@@ -1,6 +1,6 @@
 input {
   file {
-    path => "{{ logstash_local_batch_path }}"
+    path => "{{ logstash_local_batch_path }}/*"
     type => "BATCH"
     start_position => "beginning"
     stat_interval => 5

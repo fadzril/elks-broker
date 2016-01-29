@@ -1,0 +1,10 @@
+input {
+  file {
+    path => "{{ logstash_local_saftt_path }}/*"
+    type => "SAFTT"
+    start_position => "beginning"
+    stat_interval => 5
+    sincedb_path => '{{ logstash_path }}/.sincedb'
+  }
+  # stdin { type => "stdin-type" }
+}
