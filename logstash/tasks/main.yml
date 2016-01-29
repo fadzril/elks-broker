@@ -14,6 +14,8 @@
     mode: 0644
   with_items:
     - 01-input.conf
+    - 02-local-batch-input.conf
+    - 05-local-saftt-input.conf
     - 89-lumberjack-output.conf
     - 99-output.conf
   notify: restart logstash
@@ -30,16 +32,7 @@
     - 21-informatica.conf
     - 22-tibco.conf
     - 23-hrdd.conf
-  notify: restart logstash
-
-- name: Create Logstash configuration file for local syslog.
-  template:
-    src: 02-local-batch-input.conf.j2
-    dest: /etc/logstash/conf.d/02-local-batch-input.conf
-    owner: root
-    group: root
-    mode: 0644
-  when: logstash_monitor_local_syslog
+    - 26-saftt.conf
   notify: restart logstash
 
 - name: Import Logstash pattern file
