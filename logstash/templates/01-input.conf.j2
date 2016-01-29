@@ -20,15 +20,4 @@ input {
     user => '{{ rabbitmq_admin_user }}'
     password => '{{ rabbitmq_admin_pass }}'
   }
-  rabbitmq {
-    host => 'localhost'
-    queue => 'SFTP-Q'
-    key => 'SFTP-K'
-    exchange => 'SFTP-X'
-    threads => 2
-    port => 5672
-    user => '{{ rabbitmq_admin_user }}'
-    password => '{{ rabbitmq_admin_pass }}'
-    vhost => '/'
-  }
 }
