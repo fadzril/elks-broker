@@ -5,9 +5,9 @@ logstash_elasticsearch_host: "c4t17649.itcs.hpecorp.net:9200"
 logstash_elasticsearch_cluster: leo
 logstash_elasticsearch_index: leo.indices
 
-logstash_local_batch_path: /home/leo/logs/informatica/
-logstash_local_wd_path: /home/leo/logs/workday/
-logstash_local_saftt_path: /home/leo/logs/saftt/
+logstash_local_batch_path: /home/leo/logs/informatica
+logstash_local_wd_path: /home/leo/logs/workday
+logstash_local_saftt_path: /home/leo/logs/saftt
 logstash_monitor_local_syslog: true
 
 logstash_ssl_dir: /etc/pki/logstash

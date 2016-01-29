@@ -8,6 +8,7 @@ WORDS (\[\w+...*)
 WORDS_ALT (\w+*)
 WORDS_ALL \w+...*
 WORDS_ALL_DOT ([\w+\.])+
+SUID (?:\w+[0-9,]+)?
 DUMP (^\s+at .+)|(^\s+... \d+ more)
 CUSTOM_TRACE_EXCEPTION (^java.+Exception)|(^java.lang.RuntimeException)|(^.+Exception.+)|(^.+Exception: .+)
 
@@ -23,6 +24,11 @@ HRDD_LOG %{HRDD_PART_1}%{HRDD_PART_2}%{HRDD_PART_3}
 #######################################################################################
 # TIBCO Patterns
 #######################################################################################
+RT_PART_1 %{TIMESTAMP_ISO8601:received_at}\|%{DATA:app_id}\|%{LOGLEVEL:category}\|%{DATA:component}\|
+RT_PART_2 %{DATA:hostname}\|%{DATA:status}\|%{SUID:subscription_id}\|%{DATA:tags}\|%{DATA:transaction_type}\|
+RT_PART_3 %{DATA:types}\|%{DATA:event_id}\|%{DATA:source_filename}\|%{DATA:target_filename}\|%{GREEDYDATA:messages}
+REALTIME_LOG %{RT_PART_1}%{RT_PART_2}%{RT_PART_3}
+
 TIBCO_PART_1 %{TIMESTAMP_ISO8601:received_at}%{SEPARATOR}%{INT:app_id}%{SEPARATOR}%{DATA:component}%{SEPARATOR}
 TIBCO_PART_2 %{DATA:hostname}%{SEPARATOR}(?:%{DATA:transaction_type})%{SEPARATOR}(?:|%{DATA:transaction_id})%{SEPARATOR}
 TIBCO_PART_3 %{DATA:subscription_id}%{SEPARATOR}%{DATA:category}%{SEPARATOR}(?:%{DATA:status}\: |)%{GREEDYDATA:messages} ?
@@ -66,6 +72,6 @@ INFORMATICA_LOG %{DATESTAMP:received_at}\|%{INT:app_id}\|%{DATA:category}\|%{WOR
 # Informatica Batch (DB/FILES) - 01/20/2016
 ##
 BL_PART_1 %{TIMESTAMP_ISO8601:received_at}\|%{DATA:app_id}\|%{DATA:category}\|%{DATA:component}\|%{DATA:hostname}\|
-BL_PART_2 %{WORD:status}\|%{DATA:subscription_id}\|%{DATA:tags}\|(?:%{DATA:transaction_type})+\|(?:%{DATA:log_type})+\|
+BL_PART_2 %{WORD:status}\|%{SUID:subscription_id}\|%{DATA:tags}\|(?:%{DATA:transaction_type})+\|(?:%{DATA:log_type})+\|
 BL_PART_3 %{INT:transaction_id}\|(?:%{WORDS_ALL_DOT:source_filename})\|(?:%{WORDS_ALL_DOT:target_filename})\|%{GREEDYDATA:messages}
 BATCH_LOG %{BL_PART_1}%{BL_PART_2}%{BL_PART_3}
