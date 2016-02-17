@@ -71,7 +71,7 @@ INFORMATICA_LOG %{DATESTAMP:received_at}\|%{INT:app_id}\|%{DATA:category}\|%{WOR
 #######################################################################################
 # Informatica Batch (DB/FILES) - 01/20/2016
 ##
-BL_PART_1 %{TIMESTAMP_ISO8601:received_at}\|%{DATA:app_id}\|%{DATA:category}\|%{DATA:component}\|%{DATA:hostname}\|
+BL_PART_1 %{TIMESTAMP_ISO8601:received_at}0000\|%{DATA:app_id}\|%{DATA:category}\|%{DATA:component}\|%{DATA:hostname}\|
 BL_PART_2 %{WORD:status}\|%{SUID:subscription_id}\|%{DATA:tags}\|(?:%{DATA:transaction_type})?\|(?:%{DATA:log_type})?\|
 BL_PART_3 %{INT:transaction_id}\|(?:%{WORDS_ALL_DOT:source_filename})\|(?:%{WORDS_ALL_DOT:target_filename})\|%{GREEDYDATA:messages}
 BATCH_LOG %{BL_PART_1}%{BL_PART_2}%{BL_PART_3}
